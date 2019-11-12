@@ -1,15 +1,23 @@
-// 서버를 생성합니다.
-var http = require('http').createServer();
+var express = require('express');
+var app = express();
 
-//서버를 실행합니다.
-server.listen(52273,function() {
-	console.log('Server Running at http://127.0.0.1:52273');
+app.use(function(request, response, next) {
+	console.log('first');
+	next();
 });
 
+app.use(function(request, response, next) {
+	console.log('second');
+	next();
+});
 
-//10초 후 함수를 실행합니다.
-var test = function() {
-	//서버를 종료합니다.
-	server.close();
-};
-setTimeout(test,1000);
+app.use(function(request, response, next) {
+	console.log('third');
+	
+	response.writeHead(200, { 'Context-Type' : 'text/html' });
+	response.end('<h1>express Basic</h1>');
+});
+
+app.listen(52273, function() {
+	console.log('Server Running');
+});
